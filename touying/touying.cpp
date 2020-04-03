@@ -1,20 +1,30 @@
-﻿// touying.cpp : 此文件包含 "main" 函数。程序执行将在此处开始并结束。
-//
+﻿#include <iostream>
+#include <opencv2/opencv.hpp>
+using namespace cv;
+using namespace std;
+int main() {
+	Mat dstMat;
+	Mat srcMat = imread("C:\\project\\lena.jpg");
+	if (srcMat.empty()) return -1;
 
-#include <iostream>
+	Point2f pts1[] = {
+			Point2f(150,150),
+			Point2f(150,300),
+			Point2f(350,300),
+			Point2f(350,150),
+	};
+	Point2f pts2[] = {
+		   Point2f(200,150),
+		   Point2f(200,300),
+		   Point2f(340,270),
+		   Point2f(340,180),
+	};
+	const Mat perspective_matrix = getPerspectiveTransform(pts1, pts2);
+	warpPerspective(srcMat, dstMat, perspective_matrix, srcMat.size());
+	imshow("src", srcMat);
+	imshow("dst", dstMat);
 
-int main()
-{
-    std::cout << "Hello World!\n";
+	waitKey(0);
+
+
 }
-
-// 运行程序: Ctrl + F5 或调试 >“开始执行(不调试)”菜单
-// 调试程序: F5 或调试 >“开始调试”菜单
-
-// 入门使用技巧: 
-//   1. 使用解决方案资源管理器窗口添加/管理文件
-//   2. 使用团队资源管理器窗口连接到源代码管理
-//   3. 使用输出窗口查看生成输出和其他消息
-//   4. 使用错误列表窗口查看错误
-//   5. 转到“项目”>“添加新项”以创建新的代码文件，或转到“项目”>“添加现有项”以将现有代码文件添加到项目
-//   6. 将来，若要再次打开此项目，请转到“文件”>“打开”>“项目”并选择 .sln 文件
